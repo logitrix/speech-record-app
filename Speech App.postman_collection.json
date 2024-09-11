@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "bc3ec6b4-f946-4709-8429-6d6bf1a12a1a",
+		"name": "Speech App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "1603563"
+	},
+	"item": [
+		{
+			"name": "Create/Update Author",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uuid\":null,\r\n    \"firstname\" : \"John\",\r\n    \"lastname\" : \"Doenut\",\r\n    \"profession\": \"Public Speaker\",\r\n    \"email\": \"johnny@gmail.com\",\r\n    \"mobile\": \"+123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/author"
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Authors",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8080/api/author/generate-data/5"
+			},
+			"response": []
+		},
+		{
+			"name": "View All Author",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/author"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Author",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8080/api/author/delete/d3fd0685-7501-44cf-81e3-ea92173ea4ca"
+			},
+			"response": []
+		},
+		{
+			"name": "Create/Update Speech",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uuid\":null,\r\n    \"subject\" : \"Lorem Ipsumss\",\r\n    \"contents\" : \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum\",\r\n    \"authoruuid\": \"19087895-4483-4590-9084-cb551821049a\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/speech"
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Speeches",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8080/api/speech/generate-data/5"
+			},
+			"response": []
+		},
+		{
+			"name": "View All Speeches",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/speech"
+			},
+			"response": []
+		},
+		{
+			"name": "Custom Search Speeches",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subject\" : \"\",\r\n    \"contents\" : \"\",\r\n    \"author\" : \"Monkey\",\r\n    \"modifiedAfter\" : \"2024-09-11\",\r\n    \"modifiedBefore\" : \"2024-09-11\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/speech/custom-search"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Speech",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8080/api/speech/delete/259435ac-d860-4e17-956a-5a3c1238f942"
+			},
+			"response": []
+		}
+	]
+}
