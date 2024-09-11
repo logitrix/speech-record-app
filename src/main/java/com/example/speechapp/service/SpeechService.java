@@ -1,7 +1,8 @@
 package com.example.speechapp.service;
 
 import com.example.speechapp.dto.CreateUpdateSpeechDto;
-import com.example.speechapp.dto.FindSpeechDto;
+import com.example.speechapp.dto.FindSpeechRequestDto;
+import com.example.speechapp.dto.FindSpeechResponseDto;
 import com.example.speechapp.entity.Speech;
 import com.example.speechapp.exception.CustomConflictException;
 
@@ -12,9 +13,9 @@ public interface SpeechService {
 
     public Speech createUpdate(CreateUpdateSpeechDto dto) throws Exception;
 
-    public List<Speech> findAll();
+    public List<FindSpeechResponseDto> findAll();
 
-    public List<Speech> findAll(FindSpeechDto dto) throws CustomConflictException;
+    public List<FindSpeechResponseDto> findAll(FindSpeechRequestDto dto) throws CustomConflictException;
 
     public void delete(UUID uuid);
 

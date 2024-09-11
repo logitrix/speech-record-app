@@ -26,23 +26,22 @@ public class AuthorServiceImpl implements AuthorService  {
     private SpeechRepository speechRepository;
 
     @Override
-    public Author createUpdate(CreateUpdateAuthorDto dto) {
-
-        if (StringUtils.isBlank(dto.getFirstname()) || StringUtils.isBlank(dto.getLastname())) {
-            throw new IllegalArgumentException("Firstname & Lastname is required");
-        }
-
+    public Author createUpdate(CreateUpdateAuthorDto dto) throws CustomConflictException {
         Author author = null;
         if (dto.getUuid() != null) {
             author = authorRepository.findById(dto.getUuid()).orElseThrow(() -> new RuntimeException("Author not found with uuid: " + dto.getUuid()));
-            author.setFirstname(dto.getFirstname());
-            author.setMiddlename(dto.getMiddlename());
-            author.setLastname(dto.getLastname());
-            author.setProfession(dto.getProfession());
-            author.setEmail(dto.getEmail());
-            author.setMobile(dto.getMobile());
+            author.setFirstname(dto.getFirstname() == null || dto.getFirstname().isBlank() ? author.getFirstname() : dto.getFirstname());
+            author.setMiddlename(dto.getMiddlename() == null || dto.getMiddlename().isBlank() ? author.getMiddlename() : dto.getFirstname());
+            author.setLastname(dto.getLastname() == null || dto.getLastname().isBlank() ? author.getLastname() : dto.getLastname());
+            author.setProfession(dto.getProfession() == null || dto.getProfession().isBlank() ? author.getProfession() : dto.getProfession());
+            author.setEmail(dto.getEmail() == null || dto.getEmail().isBlank() ? author.getEmail() : dto.getEmail());
+            author.setMobile(dto.getMobile() == null || dto.getMobile().isBlank() ? author.getMobile() : dto.getMobile());
             author.setLastmodifieddate(new Date());
         } else {
+            if (StringUtils.isBlank(dto.getFirstname()) || StringUtils.isBlank(dto.getLastname())) {
+                throw new CustomConflictException("Firstname & Lastname is required");
+            }
+
             author = new Author(dto);
         }
 
@@ -64,8 +63,8 @@ public class AuthorServiceImpl implements AuthorService  {
     }
 
     @Override
-    public Author findById(UUID uuid) {
-        return authorRepository.findById(uuid).orElseThrow(() -> new RuntimeException("Author not found with uuid: " + uuid));
+    public Author findById(UUID uuid) throws CustomConflictException {
+        return authorRepository.findById(uuid).orElseThrow(() -> new CustomConflictException("Author not found with uuid: " + uuid));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.speechapp.repository;
 
-import com.example.speechapp.dto.FindSpeechDto;
 import com.example.speechapp.entity.Speech;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

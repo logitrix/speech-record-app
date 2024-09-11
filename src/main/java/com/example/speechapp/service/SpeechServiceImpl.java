@@ -1,7 +1,8 @@
 package com.example.speechapp.service;
 
 import com.example.speechapp.dto.CreateUpdateSpeechDto;
-import com.example.speechapp.dto.FindSpeechDto;
+import com.example.speechapp.dto.FindSpeechRequestDto;
+import com.example.speechapp.dto.FindSpeechResponseDto;
 import com.example.speechapp.entity.Author;
 import com.example.speechapp.entity.Speech;
 import com.example.speechapp.exception.CustomConflictException;
@@ -18,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -30,18 +32,23 @@ public class SpeechServiceImpl implements SpeechService {
     public Speech createUpdate(CreateUpdateSpeechDto dto) throws CustomConflictException {
 
         if (StringUtils.isBlank(dto.getSubject())) {
-            throw new IllegalArgumentException("Subject is required");
+            throw new CustomConflictException("Subject is required");
         }
 
         Speech speech = null;
         if (dto.getUuid() != null) {
-            speech = speechRepository.findById(dto.getUuid()).orElseThrow(() -> new RuntimeException("Speech Record not found with uuid: " + dto.getUuid()));
+            speech = speechRepository.findById(dto.getUuid()).orElseThrow(() -> new CustomConflictException("Speech Record not found with uuid: " + dto.getUuid()));
             Author author = authorRepository.findById(dto.getAuthoruuid()).orElseThrow(() -> new CustomConflictException("Author not found"));
             speech.setSubject(dto.getSubject().trim());
             speech.setContents(dto.getContents());
             speech.setAuthor(author);
             speech.setLastmodifieddate(new Date());
         } else {
+
+            if (StringUtils.isBlank(dto.getSubject()) || StringUtils.isBlank(dto.getSubject())) {
+                throw new CustomConflictException("Subject is required");
+            }
+
             Author author = authorRepository.findById(dto.getAuthoruuid()).orElseThrow(() -> new CustomConflictException("Author not found"));
             speech = new Speech(dto, author);
         }
@@ -51,12 +58,13 @@ public class SpeechServiceImpl implements SpeechService {
     }
 
     @Override
-    public List<Speech> findAll() {
-        return speechRepository.findAll();
+    public List<FindSpeechResponseDto> findAll() {
+        return speechRepository.findAll()
+                .stream().map(speech -> new FindSpeechResponseDto(speech)).collect(Collectors.toList());
     }
 
     @Override
-    public List<Speech> findAll(FindSpeechDto dto) throws CustomConflictException {
+    public List<FindSpeechResponseDto> findAll(FindSpeechRequestDto dto) throws CustomConflictException {
         Date createdAfterDate = (dto.getModifiedAfter() != null && !dto.getModifiedAfter().trim().isEmpty())
                 ? DateHelper.stringToDate(dto.getModifiedAfter().trim()  + " 00:00:00") : null;
         Date createdBeforeDate = (dto.getModifiedBefore() != null && !dto.getModifiedBefore().trim().isEmpty())
@@ -70,9 +78,10 @@ public class SpeechServiceImpl implements SpeechService {
             System.out.println("Modified between: " + createdAfterDate  + " and " + createdBeforeDate);
             return speechRepository.findAllByCustomParamsWithDateCoverage(dto.getSubject(),
                     dto.getContents(), dto.getAuthor(),
-                    createdAfterDate, createdBeforeDate);
+                    createdAfterDate, createdBeforeDate).stream().map(speech -> new FindSpeechResponseDto(speech)).collect(Collectors.toList());
         } else {
-            return speechRepository.findAllByCustomParams(dto.getSubject(), dto.getContents(), dto.getAuthor());
+            return speechRepository.findAllByCustomParams(dto.getSubject(), dto.getContents(), dto.getAuthor())
+                    .stream().map(speech -> new FindSpeechResponseDto(speech)).collect(Collectors.toList());
         }
     }
 
@@ -98,6 +107,7 @@ public class SpeechServiceImpl implements SpeechService {
             int authorIndex = new Random().nextInt(authors.size());;
             speech.setAuthor(authors.get(authorIndex));
             speech.setLastmodifieddate(new Date());
+            speech.setCreateddate(new Date());
             speechRepository.save(speech);
         }
     }

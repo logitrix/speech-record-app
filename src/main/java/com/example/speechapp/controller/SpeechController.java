@@ -1,12 +1,10 @@
 package com.example.speechapp.controller;
 
-import com.example.speechapp.dto.CreateUpdateAuthorDto;
 import com.example.speechapp.dto.CreateUpdateSpeechDto;
-import com.example.speechapp.dto.FindSpeechDto;
-import com.example.speechapp.entity.Author;
+import com.example.speechapp.dto.FindSpeechRequestDto;
+import com.example.speechapp.dto.FindSpeechResponseDto;
 import com.example.speechapp.entity.Speech;
 import com.example.speechapp.exception.CustomConflictException;
-import com.example.speechapp.service.AuthorService;
 import com.example.speechapp.service.SpeechService;
 import com.example.speechapp.utils.HttpStatusHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +23,14 @@ public class SpeechController {
 
     @GetMapping()
     public ResponseEntity<Object> findAllSpeech(){
-        List<Speech> list = this.speechService.findAll();
+        List<FindSpeechResponseDto> list = this.speechService.findAll();
         return HttpStatusHelper.successlist(list, list.size());
     }
 
     @GetMapping("custom-search")
-    public ResponseEntity<Object> customSearchSpeech(@RequestBody FindSpeechDto dto){
+    public ResponseEntity<Object> customSearchSpeech(@RequestBody FindSpeechRequestDto dto){
         try {
-            List<Speech> list = this.speechService.findAll(dto);
+            List<FindSpeechResponseDto> list = this.speechService.findAll(dto);
             return HttpStatusHelper.successlist(list, list.size());
         } catch (Exception e) {
             return HttpStatusHelper.error(e);
