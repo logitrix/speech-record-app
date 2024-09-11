@@ -1,10 +1,12 @@
 package com.example.speechapp.service;
 
+import com.example.speechapp.dto.UpdateSpeechStatusDto;
 import com.example.speechapp.dto.CreateUpdateSpeechDto;
 import com.example.speechapp.dto.FindSpeechRequestDto;
 import com.example.speechapp.dto.FindSpeechResponseDto;
 import com.example.speechapp.entity.Author;
 import com.example.speechapp.entity.Speech;
+import com.example.speechapp.enums.SpeechStatus;
 import com.example.speechapp.exception.CustomConflictException;
 import com.example.speechapp.repository.AuthorRepository;
 import com.example.speechapp.repository.SpeechRepository;
@@ -38,6 +40,11 @@ public class SpeechServiceImpl implements SpeechService {
         Speech speech = null;
         if (dto.getUuid() != null) {
             speech = speechRepository.findById(dto.getUuid()).orElseThrow(() -> new CustomConflictException("Speech Record not found with uuid: " + dto.getUuid()));
+
+            if (speech.getStatus().equals(SpeechStatus.APPROVED) || speech.getStatus().equals(SpeechStatus.ARCHIVED)) {
+                throw new CustomConflictException("Cannot edit approved/archived speech");
+            }
+
             Author author = authorRepository.findById(dto.getAuthoruuid()).orElseThrow(() -> new CustomConflictException("Author not found"));
             speech.setSubject(dto.getSubject().trim());
             speech.setContents(dto.getContents());
@@ -91,8 +98,29 @@ public class SpeechServiceImpl implements SpeechService {
     }
 
     @Override
-    public Speech findById(UUID uuid) {
-        return speechRepository.findById(uuid).orElseThrow(() -> new RuntimeException("Speech Record not found with uuid: " + uuid));
+    public Speech findById(UUID uuid) throws CustomConflictException {
+        return speechRepository.findById(uuid).orElseThrow(() -> new CustomConflictException("Speech Record not found with uuid: " + uuid));
+    }
+
+    @Override
+    public void updateSpeechStatus(UpdateSpeechStatusDto dto, SpeechStatus status) throws CustomConflictException {
+        Speech speech = null;
+        if (dto.getUuid() != null) {
+            speech = speechRepository.findById(dto.getUuid()).orElseThrow(() -> new CustomConflictException("Speech Record not found with uuid: " + dto.getUuid()));
+        } else {
+            if (StringUtils.isBlank(dto.getSubject()) || StringUtils.isBlank(dto.getSubject())) {
+                throw new CustomConflictException("Speech Subject/UUID is required");
+            }
+            speech = speechRepository.findBySubject(dto.getSubject());
+        }
+
+        if (StringUtils.isBlank(dto.getUpdatername()) || StringUtils.isBlank(dto.getUpdatername())) {
+            throw new CustomConflictException("Status Updater's name is required");
+        }
+
+        speech.setStatus(status);
+        speech.setStatusupdatedby(dto.getUpdatername());
+        speechRepository.save(speech);
     }
 
     @Override
@@ -108,6 +136,7 @@ public class SpeechServiceImpl implements SpeechService {
             speech.setAuthor(authors.get(authorIndex));
             speech.setLastmodifieddate(new Date());
             speech.setCreateddate(new Date());
+            speech.setStatus(SpeechStatus.DRAFT);
             speechRepository.save(speech);
         }
     }

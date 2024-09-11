@@ -20,14 +20,22 @@ Apache Maven 3.8.7
 # Import the file App.postman_collection.json into Postman as Collection(v2) for the endpoints
 
 # Following are the endpoints available
-'Create/Update Author'
-'View All Authors'
-'Delete Author'
-'Create/Update Speech'
-'View All Speeches'
-'Custom Seach Speeches'
-'Generate Authors (For Sample Data)'
-'Generate Speeches (For Sample Data)'
+'Create/Update Author -> POST http://localhost:8080/api/author'
+'View All Authors -> GET http://localhost:8080/api/author'
+'Delete Author -> DELETE http://localhost:8080/api/author/delete/{uuid}'
+'Create/Update Speech -> POST http://localhost:8080/api/speech'
+'View All Speeches -> GET http://localhost:8080/api/speech'
+'Custom Seach Speeches -> GET http://localhost:8080/api/speech/custom-search'
+
+# Following are the endpoints/feature added for APPROVING,ARCHIVING, moving back to draft a speech.
+# APPROVED and ARCHIVED speeches cannot be updated. Only draft can be updated.
+'Approve Speech -> POST http://localhost:8080/api/speech/approve'
+'Archived Speech -> POST http://localhost:8080/api/speech/archive'
+'Move to Draft Speech -> POST http://localhost:8080/api/speech/draft'
+
+# Following are the endpoints for generating sample for Authors and Speech
+'Generate Authors -> POST http://localhost:8080/api/author/generate-data/{int}'
+'Generate Speeches -> POST http://localhost:8080/api/speech/generate-data/{int}'
 
 # Two main Entities in this Application
 'Author' one author can have many speech
@@ -45,6 +53,7 @@ Apache Maven 3.8.7
 'subject' -> required and unique
 'contents' -> 1000 characters
 'author' -> required
+'status' -> updated through workflow
 
 
 

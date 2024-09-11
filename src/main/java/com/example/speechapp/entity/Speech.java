@@ -1,6 +1,7 @@
 package com.example.speechapp.entity;
 
 import com.example.speechapp.dto.CreateUpdateSpeechDto;
+import com.example.speechapp.enums.SpeechStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,6 +36,9 @@ public class Speech {
     private Author author;
     private Date lastmodifieddate;
     private Date createddate;
+    private SpeechStatus status;
+    private String statusupdatedby;
+    
 
     public Speech(CreateUpdateSpeechDto dto, Author author) {
         this.subject = dto.getSubject().trim();
@@ -42,6 +46,7 @@ public class Speech {
         this.author = author;
         this.lastmodifieddate = new Date();
         this.createddate = new Date();
+        this.status = SpeechStatus.DRAFT;
     }
 
 }

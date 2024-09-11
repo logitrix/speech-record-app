@@ -1,9 +1,10 @@
 package com.example.speechapp.controller;
 
+import com.example.speechapp.dto.UpdateSpeechStatusDto;
 import com.example.speechapp.dto.CreateUpdateSpeechDto;
 import com.example.speechapp.dto.FindSpeechRequestDto;
 import com.example.speechapp.dto.FindSpeechResponseDto;
-import com.example.speechapp.entity.Speech;
+import com.example.speechapp.enums.SpeechStatus;
 import com.example.speechapp.exception.CustomConflictException;
 import com.example.speechapp.service.SpeechService;
 import com.example.speechapp.utils.HttpStatusHelper;
@@ -56,6 +57,36 @@ public class SpeechController {
     public ResponseEntity<Object> generateSpeech(@PathVariable int size) throws CustomConflictException {
         try {
             this.speechService.generateSpeeches(size);
+            return HttpStatusHelper.success("ok");
+        } catch (Exception e) {
+            return HttpStatusHelper.error(e);
+        }
+    }
+
+    @PostMapping(value = "/approve")
+    public ResponseEntity<Object> approveSpeech(@RequestBody UpdateSpeechStatusDto dto) throws CustomConflictException {
+        try {
+            this.speechService.updateSpeechStatus(dto, SpeechStatus.APPROVED);
+            return HttpStatusHelper.success("ok");
+        } catch (Exception e) {
+            return HttpStatusHelper.error(e);
+        }
+    }
+
+    @PostMapping(value = "/archive")
+    public ResponseEntity<Object> archiveSpeech(@RequestBody UpdateSpeechStatusDto dto) throws CustomConflictException {
+        try {
+            this.speechService.updateSpeechStatus(dto, SpeechStatus.ARCHIVED);
+            return HttpStatusHelper.success("ok");
+        } catch (Exception e) {
+            return HttpStatusHelper.error(e);
+        }
+    }
+
+    @PostMapping(value = "/draft")
+    public ResponseEntity<Object> draftSpeech(@RequestBody UpdateSpeechStatusDto dto) throws CustomConflictException {
+        try {
+            this.speechService.updateSpeechStatus(dto, SpeechStatus.DRAFT);
             return HttpStatusHelper.success("ok");
         } catch (Exception e) {
             return HttpStatusHelper.error(e);

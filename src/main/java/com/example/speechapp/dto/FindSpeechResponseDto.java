@@ -6,13 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class FindSpeechResponseDto {
+
+    private UUID uuid;
     private String subject;
     private String contents;
+    private String status;
     private String author;
     private String authormobile;
     private String authoremail;
@@ -20,6 +24,7 @@ public class FindSpeechResponseDto {
     private Date lastModifiedDate;
 
     public FindSpeechResponseDto(Speech speech) {
+            this.uuid = speech.getUuid();
             this.subject = speech.getSubject();
             this.contents = speech.getContents();
             this.author = speech.getAuthor().getFirstname() + " " +
@@ -28,6 +33,7 @@ public class FindSpeechResponseDto {
             this.authormobile = speech.getAuthor().getMobile();
             this.authoremail = speech.getAuthor().getEmail();
             this.lastModifiedDate = speech.getLastmodifieddate();
+            this.status = speech.getStatus().name();
             this.createdDate = speech.getCreateddate();
     }
 }

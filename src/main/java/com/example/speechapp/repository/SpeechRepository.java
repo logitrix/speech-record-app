@@ -27,4 +27,7 @@ public interface SpeechRepository extends JpaRepository<Speech, UUID> {
             " order by s.lastmodifieddate DESC")
     List<Speech> findAllByCustomParamsWithDateCoverage(String subject, String contents, String author, Date afterDate, Date beforeDate);
 
+
+    Speech findBySubject(String subject);
+
 }

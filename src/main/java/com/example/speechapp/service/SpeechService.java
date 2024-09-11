@@ -1,9 +1,11 @@
 package com.example.speechapp.service;
 
+import com.example.speechapp.dto.UpdateSpeechStatusDto;
 import com.example.speechapp.dto.CreateUpdateSpeechDto;
 import com.example.speechapp.dto.FindSpeechRequestDto;
 import com.example.speechapp.dto.FindSpeechResponseDto;
 import com.example.speechapp.entity.Speech;
+import com.example.speechapp.enums.SpeechStatus;
 import com.example.speechapp.exception.CustomConflictException;
 
 import java.util.List;
@@ -19,8 +21,10 @@ public interface SpeechService {
 
     public void delete(UUID uuid);
 
-    public Speech findById(UUID uuid);
+    public Speech findById(UUID uuid) throws CustomConflictException;
 
     public void generateSpeeches(int size);
+
+    public void updateSpeechStatus(UpdateSpeechStatusDto dto, SpeechStatus status) throws CustomConflictException;
 
 }

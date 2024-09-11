@@ -73,7 +73,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"uuid\":null,\r\n    \"subject\" : \"Lorem Ipsumss\",\r\n    \"contents\" : \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum\",\r\n    \"authoruuid\": \"19087895-4483-4590-9084-cb551821049a\"\r\n}",
+					"raw": "{\r\n    \"uuid\":\"429bd864-f7a1-497f-841d-38a28bb5badb\",\r\n    \"subject\" : \"Lorem Ipsumss\",\r\n    \"contents\" : \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum\",\r\n    \"authoruuid\": \"34583afc-2ec6-4393-b3cb-e357d30ace89\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -81,6 +81,69 @@
 					}
 				},
 				"url": "http://localhost:8080/api/speech"
+			},
+			"response": []
+		},
+		{
+			"name": "Approve Speech",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uuid\" : \"429bd864-f7a1-497f-841d-38a28bb5badb\",\r\n    \"subject\": \"\",\r\n    \"updatername\" : \"Yours Truly\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/speech/approve"
+			},
+			"response": []
+		},
+		{
+			"name": "Archived Speech",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uuid\" : \"24904c0e-c223-468c-b844-3d1231bca25b\",\r\n    \"subject\": \"\",\r\n    \"updatername\" : \"Yours Truly\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/speech/archive"
+			},
+			"response": []
+		},
+		{
+			"name": "Move to Draft Speech",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uuid\" : \"429bd864-f7a1-497f-841d-38a28bb5badb\",\r\n    \"subject\": \"\",\r\n    \"updatername\" : \"Yours Truly\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/speech/draft"
 			},
 			"response": []
 		},

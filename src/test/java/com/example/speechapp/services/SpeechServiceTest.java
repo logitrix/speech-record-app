@@ -3,6 +3,7 @@ package com.example.speechapp.services;
 import com.example.speechapp.dto.CreateUpdateSpeechDto;
 import com.example.speechapp.entity.Author;
 import com.example.speechapp.entity.Speech;
+import com.example.speechapp.enums.SpeechStatus;
 import com.example.speechapp.exception.CustomConflictException;
 import com.example.speechapp.repository.AuthorRepository;
 import com.example.speechapp.repository.SpeechRepository;
@@ -90,6 +91,7 @@ public class SpeechServiceTest {
         speech.setSubject("Sample Subject");
         speech.setContents("Lorem ipsum dolor sit amet, consectetur adipiscing elit talalala");
         speech.setAuthor(author);
+        speech.setStatus(SpeechStatus.DRAFT);
 
         when(authorRepository.findById(any())).thenReturn(Optional.of(author));
         when(speechRepository.findById(any())).thenReturn(Optional.of(speech));
@@ -119,7 +121,7 @@ public class SpeechServiceTest {
     }
 
     @Test
-    public void findById() {
+    public void findById() throws CustomConflictException {
         String uuid = "9b8c7e61-8fca-4b3c-8764-dde9e7be47ec";
         Speech speech = new Speech();
         speech.setUuid(UUID.fromString(uuid));
